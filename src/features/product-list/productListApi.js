@@ -1,7 +1,7 @@
 // productListApi.js
 export const fetchAllProducts = async () => {
   try {
-    const response = await fetch("https://dummyjson.com/products");
+    const response = await fetch("http://localhost:8080/products");
     if (!response.ok) {
       throw new Error("Failed to fetch products");
     }
@@ -15,7 +15,7 @@ export const fetchAllProducts = async () => {
 
 export const fetchProductById = async (id) => {
   try {
-    const response = await fetch("https://dummyjson.com/products/" + id);
+    const response = await fetch("http://localhost:8080/products/" + id);
 
     if (!response.ok) {
       throw new Error("Network response was not ok");

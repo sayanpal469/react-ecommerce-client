@@ -4,78 +4,8 @@ import { RadioGroup } from "@headlessui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProductByIdAsync, selectProductById } from "../productListSlice";
 import { useParams } from "react-router-dom";
-
-// const product = {
-//   name: "Basic Tee 6-Pack",
-//   price: "$192",
-//   href: "#",
-//   breadcrumbs: [
-//     { id: 1, name: "Men", href: "#" },
-//     { id: 2, name: "Clothing", href: "#" },
-//   ],
-//   images: [
-//     {
-//       src: "https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg",
-//       alt: "Two each of gray, white, and black shirts laying flat.",
-//     },
-//     {
-//       src: "https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg",
-//       alt: "Model wearing plain black basic tee.",
-//     },
-//     {
-//       src: "https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg",
-//       alt: "Model wearing plain gray basic tee.",
-//     },
-//     {
-//       src: "https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg",
-//       alt: "Model wearing plain white basic tee.",
-//     },
-//   ],
-//   colors: [
-//     { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
-//     { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
-//     { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
-//   ],
-//   sizes: [
-//     { name: "XXS", inStock: false },
-//     { name: "XS", inStock: true },
-//     { name: "S", inStock: true },
-//     { name: "M", inStock: true },
-//     { name: "L", inStock: true },
-//     { name: "XL", inStock: true },
-//     { name: "2XL", inStock: true },
-//     { name: "3XL", inStock: true },
-//   ],
-//   description:
-//     'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
-//   highlights: [
-//     "Hand cut and sewn locally",
-//     "Dyed with our proprietary colors",
-//     "Pre-washed & pre-shrunk",
-//     "Ultra-soft 100% cotton",
-//   ],
-//   details:
-//     'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
-// };
-
-// const colors = [
-//   { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
-//   { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
-//   { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
-// ];
-
-// const sizes = [
-//   { name: "XXS", inStock: false },
-//   { name: "XS", inStock: true },
-//   { name: "S", inStock: true },
-//   { name: "M", inStock: true },
-//   { name: "L", inStock: true },
-//   { name: "XL", inStock: true },
-//   { name: "2XL", inStock: true },
-//   { name: "3XL", inStock: true },
-// ];
-
-// const reviews = { href: "#", average: 4, totalCount: 117 };
+import { addToCartAsync } from "../../cart/cartSlice";
+import { selectedLoggedInUser } from "../../auth/authSlice";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -84,17 +14,25 @@ function classNames(...classes) {
 const ProductDetails = () => {
   const [selectedColor, setSelectedColor] = useState();
   const [selectedSize, setSelectedSize] = useState();
-  // const items = useSelector(selectItems);
   const product = useSelector(selectProductById);
+  const user = useSelector(selectedLoggedInUser);
   const dispatch = useDispatch();
   const params = useParams();
-  // const alert = useAlert();
-  // const status = useSelector(selectProductListStatus);
-  // console.log(product)
 
   useEffect(() => {
     dispatch(fetchProductByIdAsync(params.id));
   }, [dispatch, params.id]);
+
+  const handleCart = (e) => {
+    e.preventDefault();
+    const cartItem = { ...product, quantity: 1, user };
+
+    if (user) {
+      dispatch(addToCartAsync(cartItem));
+    } else {
+      console.log("User is not logged in. Handle accordingly.");
+    }
+  };
 
   return (
     <div className="bg-white">
@@ -342,7 +280,7 @@ const ProductDetails = () => {
                 )}
 
                 <button
-                  // onClick={handleCart}
+                  onClick={handleCart}
                   type="submit"
                   className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
