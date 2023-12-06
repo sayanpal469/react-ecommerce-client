@@ -26,6 +26,7 @@ const ProductDetails = () => {
   const handleCart = (e) => {
     e.preventDefault();
     const cartItem = { ...product, quantity: 1, user };
+    delete cartItem["id"]
 
     if (user) {
       dispatch(addToCartAsync(cartItem));

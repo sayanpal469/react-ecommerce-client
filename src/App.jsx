@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { fetchItemsByUserIdAsync } from "./features/cart/cartSlice";
 import { selectedLoggedInUser } from "./features/auth/authSlice";
 import { selectTotalItems } from "./features/product-list/productListSlice";
+import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   const router = createBrowserRouter([
@@ -52,6 +53,12 @@ function App() {
         <Protected>
           <ProductDetails />
         </Protected>
+      ),
+    },
+    {
+      path: "*",
+      element: (
+       <PageNotFound/>
       ),
     },
   ]);

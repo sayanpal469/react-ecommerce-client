@@ -28,7 +28,6 @@ export const fetchItemsByUserId = (userId) => {
         return response.json();
       })
       .then((data) => {
-        console.log("Data received:", data);
         resolve({ data });
       })
       .catch((error) => {
