@@ -6,12 +6,13 @@ import {
   updateCartAsync,
 } from "../features/cart/cartSlice";
 import { useForm } from "react-hook-form";
-import {
-  selectedLoggedInUser,
-  updateUserAsync,
-} from "../features/auth/authSlice";
+import { updateUserAsync } from "../features/auth/authSlice";
 import { useState } from "react";
-import { createOrderAsync } from "../features/order/orderSlice";
+import {
+  createOrderAsync,
+  selectCurrentOrder,
+} from "../features/order/orderSlice";
+import { selectUserInfo } from "../features/user/userSlice";
 
 const CheckOut = () => {
   const dispatch = useDispatch();
@@ -21,10 +22,11 @@ const CheckOut = () => {
     register,
     handleSubmit,
     reset,
-    // formState: { errors },
+    formState: { errors },
   } = useForm();
   const items = useSelector(selectItems);
-  const user = useSelector(selectedLoggedInUser);
+  const user = useSelector(selectUserInfo);
+  const currentOrder = useSelector(selectCurrentOrder);
 
   const totalAmount = items.reduce(
     (amount, item) =>
@@ -67,6 +69,7 @@ const CheckOut = () => {
       user,
       selectedAddress,
       paymentMethod,
+      status: "pending",
     };
     dispatch(createOrderAsync(order));
   };
@@ -74,6 +77,9 @@ const CheckOut = () => {
   return (
     <>
       {!items.length && <Navigate to="/" replace={true} />}
+      {currentOrder && (
+        <Navigate to={`/order-success/${currentOrder.id}`} replace={true} />
+      )}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-5">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
           <div className="lg:col-span-3 bg-white p-5">
@@ -85,9 +91,9 @@ const CheckOut = () => {
                   updateUserAsync({
                     ...user,
                     addresses: [...user.addresses, data],
-                    reset,
                   })
                 );
+                reset();
               })}
             >
               <div className="space-y-12">
@@ -118,6 +124,11 @@ const CheckOut = () => {
                             autoComplete="given-name"
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
+                          {errors.firstName && (
+                            <p className="text-red-500">
+                              {errors.firstName.message}
+                            </p>
+                          )}
                         </div>
                       </div>
 
@@ -138,6 +149,11 @@ const CheckOut = () => {
                             autoComplete="family-name"
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
+                          {errors.lastName && (
+                            <p className="text-red-500">
+                              {errors.lastName.message}
+                            </p>
+                          )}
                         </div>
                       </div>
 
@@ -158,6 +174,11 @@ const CheckOut = () => {
                             autoComplete="email"
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
+                          {errors.email && (
+                            <p className="text-red-500">
+                              {errors.email.message}
+                            </p>
+                          )}
                         </div>
                       </div>
                       <div className="sm:col-span-3">
@@ -177,6 +198,11 @@ const CheckOut = () => {
                             autoComplete="number"
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
+                          {errors.number && (
+                            <p className="text-red-500">
+                              {errors.number.message}
+                            </p>
+                          )}
                         </div>
                       </div>
 
@@ -200,6 +226,11 @@ const CheckOut = () => {
                             <option>Canada</option>
                             <option>Mexico</option>
                           </select>
+                          {errors.country && (
+                            <p className="text-red-500">
+                              {errors.country.message}
+                            </p>
+                          )}
                         </div>
                       </div>
 
@@ -220,6 +251,11 @@ const CheckOut = () => {
                             autoComplete="street-address"
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
+                          {errors.street && (
+                            <p className="text-red-500">
+                              {errors.street.message}
+                            </p>
+                          )}
                         </div>
                       </div>
 
@@ -240,6 +276,11 @@ const CheckOut = () => {
                             autoComplete="address-level2"
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
+                          {errors.city && (
+                            <p className="text-red-500">
+                              {errors.city.message}
+                            </p>
+                          )}
                         </div>
                       </div>
 
@@ -260,6 +301,11 @@ const CheckOut = () => {
                             autoComplete="address-level1"
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
+                          {errors.state && (
+                            <p className="text-red-500">
+                              {errors.state.message}
+                            </p>
+                          )}
                         </div>
                       </div>
 
@@ -280,6 +326,11 @@ const CheckOut = () => {
                             autoComplete="postal-code"
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
+                          {errors.pinCode && (
+                            <p className="text-red-500">
+                              {errors.pinCode.message}
+                            </p>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -454,6 +505,7 @@ const CheckOut = () => {
                                   </label>
                                   <select
                                     onChange={(e) => handleQuantity(e, item)}
+                                    value={item.quantity}
                                   >
                                     {[1, 2, 3, 4, 5].map((value) => (
                                       <option key={value} value={value}>

@@ -17,14 +17,14 @@ const user = {
 };
 const navigation = [
   { name: "Dashboard", to: "/", current: true },
-  { name: "Ckeckout", to: "/checkout", current: false },
+  { name: "Checkout", to: "/checkout", current: false },
   { name: "Projects", href: "#", current: false },
   { name: "Calendar", href: "#", current: false },
   { name: "Reports", href: "#", current: false },
 ];
 const userNavigation = [
-  { name: "Your Profile", link: "#" },
-  { name: "Settings", link: "#" },
+  { name: "My Profile", link: "/profile" },
+  { name: "My Orders", link: "/orders" },
   { name: "Sign out", link: "/login" },
 ];
 
@@ -220,7 +220,7 @@ const Navbar = ({ children }) => {
       <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Dashboard
+            E-Commerce
           </h1>
         </div>
       </header>

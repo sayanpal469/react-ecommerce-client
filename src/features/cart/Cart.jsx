@@ -71,7 +71,7 @@ const Cart = () => {
                             >
                               Qty
                             </label>
-                            <select onChange={(e) => handleQuantity(e, item)}>
+                            <select onChange={(e) => handleQuantity(e, item)} value={item.quantity}>
                               {[1, 2, 3, 4, 5].map((value) => (
                                 <option key={value} value={value}>
                                   {value}

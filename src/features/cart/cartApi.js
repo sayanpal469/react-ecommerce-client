@@ -1,3 +1,4 @@
+/* eslint-disable no-async-promise-executor */
 export const addToCart = (item) => {
   return new Promise((resolve) => {
     fetch("http://localhost:8080/cart", {
@@ -89,5 +90,27 @@ export const deleteCartItem = (itemId) => {
         console.error("Delete Cart Item error:", error);
         reject({ error: error.message });
       });
+  });
+};
+
+export const resetCart = (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Fetch items associated with the user ID
+      const response = await fetchItemsByUserId(userId);
+      const items = response.data;
+
+      // Iterate through each item and delete it
+      for (const item of items) {
+        await deleteCartItem(item.id);
+      }
+
+      console.log("Cart reset successfully.");
+      resolve("Cart reset successfully.");
+    } catch (error) {
+      console.error("Error resetting cart:", error.message);
+      reject(error.message);
+      // Handle errors as needed
+    }
   });
 };

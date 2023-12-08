@@ -12,6 +12,10 @@ import { fetchItemsByUserIdAsync } from "./features/cart/cartSlice";
 import { selectedLoggedInUser } from "./features/auth/authSlice";
 import { selectTotalItems } from "./features/product-list/productListSlice";
 import PageNotFound from "./pages/PageNotFound";
+import OrderSuccess from "./pages/OrderSuccess";
+import UserOrderPage from "./pages/UserOrderPage";
+import UserProfilePage from "./pages/UserProfilePage";
+import { fetchLoggedInUserAsync } from "./features/user/userSlice";
 
 function App() {
   const router = createBrowserRouter([
@@ -56,21 +60,44 @@ function App() {
       ),
     },
     {
-      path: "*",
+      path: "/order-success/:id",
       element: (
-       <PageNotFound/>
+        <Protected>
+          <OrderSuccess />
+        </Protected>
       ),
+    },
+    {
+      path: "/orders",
+      element: (
+        <Protected>
+          <UserOrderPage />
+        </Protected>
+      ),
+    },
+    {
+      path: "/profile",
+      element: (
+        <Protected>
+          <UserProfilePage/>
+        </Protected>
+      ),
+    },
+    {
+      path: "*",
+      element: <PageNotFound />,
     },
   ]);
 
   const dispatch = useDispatch();
   const user = useSelector(selectedLoggedInUser);
-  const items = useSelector(selectTotalItems)
-  console.log(items)
+  const items = useSelector(selectTotalItems);
+  console.log(items);
 
   useEffect(() => {
     if (user) {
       dispatch(fetchItemsByUserIdAsync(user.id));
+      dispatch(fetchLoggedInUserAsync(user.id))
     }
   }, [dispatch, user]);
 

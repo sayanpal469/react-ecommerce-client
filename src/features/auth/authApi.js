@@ -19,25 +19,7 @@ export const createUser = (userData) => {
   });
 };
 
-export const updateUser = (update) => {
-  return new Promise((resolve) => {
-    fetch(`http://localhost:8080/users/${update.id}`, {
-      method: "PATCH",
-      body: JSON.stringify(update),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        resolve({ data });
-      })
-      .catch((error) => {
-        // Handle any errors here and reject the Promise if needed
-        resolve({ error: error.message });
-      });
-  });
-};
+
 
 export const checkUser = (loginInfo) => {
   return new Promise((resolve, reject) => {
