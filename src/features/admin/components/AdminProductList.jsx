@@ -12,71 +12,53 @@ import {
 } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllProductsAsync, selectAllProducts } from "../productListSlice";
+import {
+  fetchAllProductsAsync,
+  selectAllProducts,
+} from "../../product-list/productListSlice";
 
 const sortOptions = [
-  // { name: "Most Popular", href: "#", current: true },
+  { name: "Most Popular", href: "#", current: true },
   { name: "Best Rating", href: "#", current: false },
-  // { name: "Newest", href: "#", current: false },
+  { name: "Newest", href: "#", current: false },
   { name: "Price: Low to High", href: "#", current: false },
   { name: "Price: High to Low", href: "#", current: false },
 ];
 
 const filters = [
   {
-    id: "category",
-    name: "Category",
+    id: "color",
+    name: "Color",
     options: [
-      { value: "smartphones", label: "smartphones", checked: false },
-      { value: "laptops", label: "laptops", checked: false },
-      { value: "fragrances", label: "fragrances", checked: true },
-      { value: "skincare", label: "skincare", checked: false },
-      { value: "groceries", label: "groceries", checked: false },
-      { value: "home decoration", label: "home decoration", checked: false },
+      { value: "white", label: "White", checked: false },
+      { value: "beige", label: "Beige", checked: false },
+      { value: "blue", label: "Blue", checked: true },
+      { value: "brown", label: "Brown", checked: false },
+      { value: "green", label: "Green", checked: false },
+      { value: "purple", label: "Purple", checked: false },
     ],
   },
   {
-    id: "brands",
-    name: "Brands",
+    id: "category",
+    name: "Category",
     options: [
-      { value: "apple", label: "apple", checked: false },
-      { value: "samsung", label: "samsung", checked: false },
-      { value: "oppo", label: "oppo", checked: false },
-      { value: "huawei", label: "huawei", checked: false },
-      { value: "infinix", label: "infinix", checked: false },
-      { value: "hp pavilion", label: "hp pavilion", checked: false },
-      {
-        value: "impression of acqua di gio",
-        label: "impression of acqua di gio",
-        checked: false,
-      },
-      { value: "royal_mirage", label: "royal_mirage", checked: false },
-      {
-        value: "fog scent xpressio",
-        label: "fog scent xpressio",
-        checked: false,
-      },
-      { value: "al munakh", label: "al munakh", checked: false },
-      { value: "lord - al-rehab", label: "lord - al-rehab", checked: false },
-      { value: "l'oreal paris", label: "l'oreal paris", checked: false },
-      { value: "hemani tea", label: "hemani tea", checked: false },
-      { value: "dermive", label: "dermive", checked: false },
-      { value: "rorec white rice", label: "rorec white rice", checked: false },
-      { value: "fair & clear", label: "fair & clear", checked: false },
-      { value: "saaf & khaas", label: "saaf & khaas", checked: false },
-      { value: "bake parlor big", label: "bake parlor big", checked: false },
-      {
-        value: "baking food items",
-        label: "baking food items",
-        checked: false,
-      },
-      { value: "fauji", label: "fauji", checked: false },
-      { value: "dry rose", label: "dry rose", checked: false },
-      { value: "boho decor", label: "boho decor", checked: false },
-      { value: "flying wooden", label: "flying wooden", checked: false },
-      { value: "led lights", label: "led lights", checked: false },
-      { value: "luxury palace", label: "luxury palace", checked: false },
-      { value: "golden", label: "golden", checked: false },
+      { value: "new-arrivals", label: "New Arrivals", checked: false },
+      { value: "sale", label: "Sale", checked: false },
+      { value: "travel", label: "Travel", checked: true },
+      { value: "organization", label: "Organization", checked: false },
+      { value: "accessories", label: "Accessories", checked: false },
+    ],
+  },
+  {
+    id: "size",
+    name: "Size",
+    options: [
+      { value: "2l", label: "2L", checked: false },
+      { value: "6l", label: "6L", checked: false },
+      { value: "12l", label: "12L", checked: false },
+      { value: "18l", label: "18L", checked: false },
+      { value: "20l", label: "20L", checked: false },
+      { value: "40l", label: "40L", checked: true },
     ],
   },
 ];
@@ -85,7 +67,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const ProductList = () => {
+const AdminProductList = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const products = useSelector(selectAllProducts);
   const dispatch = useDispatch();
@@ -357,52 +339,51 @@ const ProductList = () => {
               {/* Product grid start */}
               <div className="lg:col-span-3">
                 <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
+                  <Link to='/admin/product-form/' className="flex  justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
+                    Add Product
+                  </Link>
                   <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                     {products?.map((product) => (
-                      <Link
-                        to={`/product-details/${product.id}`}
-                        key={product.id}
-                        className="group relative"
-                      >
-                        <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                          <img
-                            src={product.thumbnail}
-                            alt={product.title}
-                            className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-                          />
-                        </div>
-                        <div className="mt-4 flex justify-between">
-                          <div>
-                            <h3 className="text-sm text-gray-700">
-                              <a href={product.thumbnail}>
-                                <span
-                                  aria-hidden="true"
-                                  className="absolute inset-0"
-                                />
-                                {product.title}
-                              </a>
-                            </h3>
-                            <p className="mt-1 text-sm text-gray-500 flex items-center gap-1">
-                              <StarIcon className="w-4 h-4 text-yellow-500" />
-                              <span className="align-bottom">
-                                {product.rating}
-                              </span>
-                            </p>
+                      <div key={product.id}>
+                        <Link
+                          to={`/product-details/${product.id}`}
+                          className="group relative"
+                        >
+                          <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                            <img
+                              src={product.thumbnail}
+                              alt={product.title}
+                              className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                            />
                           </div>
-                          <div>
-                            <p className="text-sm block font-medium text-gray-900">
-                              $
-                              {Math.round(
-                                product.price *
-                                  (1 - product.discountPercentage / 100)
-                              )}
-                            </p>
-                            <p className="text-sm block line-through font-medium text-gray-400">
+                          <div className="mt-4 flex justify-between">
+                            <div>
+                              <h3 className="text-sm text-gray-700">
+                                {/* Use Link component instead of 'a' tag */}
+                                <Link to={`/product-details/${product.id}`}>
+                                  <span
+                                    aria-hidden="true"
+                                    className="absolute inset-0"
+                                  />
+                                  {product.title}
+                                </Link>
+                              </h3>
+                              <p className="mt-1 text-sm text-gray-500 flex items-center gap-1">
+                                <StarIcon className="w-4 h-4 text-yellow-500" />
+                                <span className="align-bottom">
+                                  {product.rating}
+                                </span>
+                              </p>
+                            </div>
+                            <p className="text-sm font-medium text-gray-900">
                               ${product.price}
                             </p>
                           </div>
-                        </div>
-                      </Link>
+                        </Link>
+                        <button className="flex w-full my-5 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                          Edit Product
+                        </button>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -487,4 +468,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default AdminProductList;

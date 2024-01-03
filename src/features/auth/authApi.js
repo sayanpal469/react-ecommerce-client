@@ -1,3 +1,4 @@
+/* eslint-disable no-async-promise-executor */
 /* eslint-disable no-undef */
 export const createUser = (userData) => {
   return new Promise((resolve) => {
@@ -19,8 +20,6 @@ export const createUser = (userData) => {
   });
 };
 
-
-
 export const checkUser = (loginInfo) => {
   return new Promise((resolve, reject) => {
     const email = loginInfo.email;
@@ -41,5 +40,14 @@ export const checkUser = (loginInfo) => {
       .catch((error) => {
         reject({ error: error.message });
       });
+  });
+};
+
+export const signOut = () => {
+  return new Promise(async (resolve) => {
+    // Simulate an asynchronous operation
+    setTimeout(() => {
+      resolve({ data: "success" });
+    }, 1000); // Simulate a delay of 1000 milliseconds (1 second)
   });
 };

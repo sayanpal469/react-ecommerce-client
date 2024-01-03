@@ -54,6 +54,11 @@ const UserProfile = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10">
         <div className="flex h-full flex-col bg-white shadow-xl p-5">
           <h3 className="text-sm px-5 font-medium">Email: {user.email}</h3>
+          {user.role === "admin" && (
+            <h3 className="text-sm px-5 capitalize font-medium">
+              Role: {user.role}
+            </h3>
+          )}
 
           <div className="px-4 py-6 sm:px-6">
             <p className="mt-0.5 text-sm text-gray-500">Your addresses</p>

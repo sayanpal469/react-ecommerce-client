@@ -557,6 +557,7 @@
     {
       "email": "sayanpal469@gmail.com",
       "password": "1111",
+      "role": "user",
       "addresses": [
         {
           "firstName": "Sayan",
@@ -575,19 +576,8 @@
     {
       "email": "bot@gmail.com",
       "password": "1111",
-      "addresses": [
-        {
-          "firstName": "Sayan",
-          "lastName": "Paul",
-          "email": "sayanpal469@gmail.com",
-          "number": "8974563254",
-          "country": "India",
-          "street": "Hooghly",
-          "city": "Chinsurah",
-          "state": "West Bengal",
-          "pinCode": "712404"
-        }
-      ],
+      "role": "admin",
+      "addresses": [],
       "id": 2
     }
   ],
@@ -609,7 +599,7 @@
         "https://i.dummyjson.com/data/products/1/4.jpg",
         "https://i.dummyjson.com/data/products/1/thumbnail.jpg"
       ],
-      "quantity": 1,
+      "quantity": 3,
       "user": {
         "email": "sayanpal469@gmail.com",
         "password": "1111",
@@ -642,81 +632,5 @@
       "id": 1
     }
   ],
-  "orders": [
-    {
-      "items": [
-        {
-          "title": "Fog Scent Xpressio Perfume",
-          "description": "Product details of Best Fog Scent Xpressio Perfume 100ml For Men cool long lasting perfumes for Men",
-          "price": 13,
-          "discountPercentage": 8.14,
-          "rating": 4.59,
-          "stock": 61,
-          "brand": "Fog Scent Xpressio",
-          "category": "fragrances",
-          "thumbnail": "https://i.dummyjson.com/data/products/13/thumbnail.webp",
-          "images": [
-            "https://i.dummyjson.com/data/products/13/1.jpg",
-            "https://i.dummyjson.com/data/products/13/2.png",
-            "https://i.dummyjson.com/data/products/13/3.jpg",
-            "https://i.dummyjson.com/data/products/13/4.jpg",
-            "https://i.dummyjson.com/data/products/13/thumbnail.webp"
-          ],
-          "quantity": 2,
-          "user": {
-            "email": "sayanpal469@gmail.com",
-            "password": "1111",
-            "addresses": [],
-            "id": 1
-          },
-          "id": 1
-        }
-      ],
-      "totalAmount": 26,
-      "totalItems": 2,
-      "user": {
-        "email": "sayanpal469@gmail.com",
-        "password": "1111",
-        "addresses": [
-          {
-            "firstName": "Sayan",
-            "lastName": "Paul",
-            "email": "sayanpal469@gmail.com",
-            "number": "7872358979",
-            "country": "India",
-            "street": "Hooghly",
-            "city": "Chinsurah",
-            "state": "West Bengal",
-            "pinCode": "712404"
-          },
-          {
-            "firstName": "Ayan",
-            "lastName": "Paul",
-            "email": "ayanpal469@gmail.com",
-            "number": "9733524165",
-            "country": "India",
-            "street": "Hooghly",
-            "city": "Chinsurah",
-            "state": "West Bengal",
-            "pinCode": "712404"
-          }
-        ],
-        "id": 1
-      },
-      "selectedAddress": {
-        "firstName": "Sayan",
-        "lastName": "Paul",
-        "email": "sayanpal469@gmail.com",
-        "number": "7872358979",
-        "country": "India",
-        "street": "Hooghly",
-        "city": "Chinsurah",
-        "state": "West Bengal",
-        "pinCode": "712404"
-      },
-      "paymentMethod": "cash",
-      "status": "pending",
-      "id": 1
-    }
-  ]
+  "orders": []
 }
