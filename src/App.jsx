@@ -24,6 +24,7 @@ import AdminProductDetailsPage from "./pages/AdminProductDetailsPage";
 import AdminProductFormPage from "./pages/AdminProductFormPage";
 
 function App() {
+  
   const router = createBrowserRouter([
     {
       path: "/",

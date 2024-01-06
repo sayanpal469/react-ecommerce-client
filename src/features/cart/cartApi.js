@@ -82,7 +82,7 @@ export const deleteCartItem = (itemId) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         resolve({ data });
       })
       .catch((error) => {

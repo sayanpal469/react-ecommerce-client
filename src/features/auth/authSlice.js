@@ -5,6 +5,7 @@ import { updateUser } from "../user/userApi";
 const initialState = {
   loggedInUser: null,
   status: "idle",
+  userChecked: false,
   error: null,
 };
 
@@ -81,6 +82,7 @@ export const authSlice = createSlice({
 });
 
 export const selectedLoggedInUser = (state) => state.auth.loggedInUser;
+export const selectUserChecked = (state) => state.auth.userChecked;
 export const selectedError = (state) => state.auth.error;
 
 export default authSlice.reducer;

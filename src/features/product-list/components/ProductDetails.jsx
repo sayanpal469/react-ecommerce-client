@@ -1,32 +1,38 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { RadioGroup } from "@headlessui/react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchProductByIdAsync, selectProductById } from "../productListSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 import { useParams } from "react-router-dom";
-import { addToCartAsync } from "../../cart/cartSlice";
+// import { useAlert } from 'react-alert';
+import { Grid } from "react-loader-spinner";
+import { addToCartAsync, selectItems } from "../../cart/cartSlice";
+import {
+  fetchProductByIdAsync,
+  selectProductById,
+  selectProductListStatus,
+} from "../productListSlice";
 import { selectedLoggedInUser } from "../../auth/authSlice";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const ProductDetails = () => {
+export default function ProductDetails() {
   const [selectedColor, setSelectedColor] = useState();
   const [selectedSize, setSelectedSize] = useState();
-  const product = useSelector(selectProductById);
+  const items = useSelector(selectItems);
   const user = useSelector(selectedLoggedInUser);
+  const product = useSelector(selectProductById);
   const dispatch = useDispatch();
   const params = useParams();
-
-  useEffect(() => {
-    dispatch(fetchProductByIdAsync(params.id));
-  }, [dispatch, params.id]);
+  // const alert = useAlert();
+  const status = useSelector(selectProductListStatus);
 
   const handleCart = (e) => {
     e.preventDefault();
+
     const cartItem = { ...product, quantity: 1, user };
-    delete cartItem["id"]
 
     if (user) {
       dispatch(addToCartAsync(cartItem));
@@ -35,8 +41,26 @@ const ProductDetails = () => {
     }
   };
 
+  console.log(items);
+
+  useEffect(() => {
+    dispatch(fetchProductByIdAsync(params.id));
+  }, [dispatch, params.id]);
+
   return (
     <div className="bg-white">
+      {status === "loading" ? (
+        <Grid
+          height="80"
+          width="80"
+          color="rgb(79, 70, 229) "
+          ariaLabel="grid-loading"
+          radius="12.5"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      ) : null}
       {product && (
         <div className="pt-6">
           <nav aria-label="Breadcrumb">
@@ -336,6 +360,4 @@ const ProductDetails = () => {
       )}
     </div>
   );
-};
-
-export default ProductDetails;
+}
