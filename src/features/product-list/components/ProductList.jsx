@@ -482,7 +482,9 @@ function ProductGrid({ products, status }) {
                   </div>
                   <div>
                     <p className="text-sm block font-medium text-gray-900">
-                      ${product.discountPrice}
+                      {/* {product.discountPercentage} */}
+
+                      ${product.price - (product.price * (product.discountPercentage / 100)).toFixed()}
                     </p>
                     <p className="text-sm block line-through font-medium text-gray-400">
                       ${product.price}

@@ -82,3 +82,47 @@ export function fetchBrands() {
       .catch((error) => resolve({ error: error.message }));
   });
 }
+
+export function createProduct(product) {
+  return new Promise((resolve) => {
+    fetch("http://localhost:8080/products", {
+      method: "POST",
+      body: JSON.stringify(product),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then((response) => response.json())
+      .then((data) => resolve({ data }))
+      .catch((error) => resolve({ error: error.message }));
+  });
+}
+
+
+export const updateProduct = (update) => {
+  return new Promise((resolve, reject) => {
+    fetch(`http://localhost:8080/products/${update.id}`, {
+      // Correct URL construction
+      method: "PATCH",
+      body: JSON.stringify(update),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // console.log(data);
+        resolve({ data });
+      })
+      .catch((error) => {
+        // Handle any errors here and reject the Promise if needed
+        console.error("Update Cart error:", error);
+        reject({ error: error.message });
+      });
+  });
+};

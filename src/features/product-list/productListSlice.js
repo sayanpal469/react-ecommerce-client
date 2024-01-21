@@ -5,13 +5,15 @@ import {
   fetchProductById,
   fetchBrands,
   fetchCategories,
+  createProduct,
+  updateProduct,
 } from "./productListApi";
 
 const initialState = {
   products: [],
   brands: [],
   categories: [],
-  status: 'idle',
+  status: "idle",
   totalItems: 0,
   selectedProduct: null,
 };
@@ -52,10 +54,27 @@ export const fetchBrandsAsync = createAsyncThunk(
     return response.data;
   }
 );
+
 export const fetchCategoriesAsync = createAsyncThunk(
   "product/fetchCategories",
   async () => {
     const response = await fetchCategories();
+    return response.data;
+  }
+);
+
+export const createProductAsync = createAsyncThunk(
+  "product/createProduct",
+  async (product) => {
+    const response = await createProduct(product);
+    return response.data;
+  }
+);
+
+export const updateProductAsync = createAsyncThunk(
+  "product/updateProduct",
+  async (update) => {
+    const response = await updateProduct(update);
     return response.data;
   }
 );
@@ -104,6 +123,23 @@ export const productSlice = createSlice({
       .addCase(fetchCategoriesAsync.fulfilled, (state, action) => {
         state.status = "idle";
         state.categories = action.payload;
+      })
+      .addCase(createProductAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(createProductAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.products.push(action.payload);
+      })
+      .addCase(updateProductAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateProductAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        const index = state.products.findIndex(
+          (product) => product.id === action.payload
+        );
+        state.products[index] = action.payload;
       });
   },
 });

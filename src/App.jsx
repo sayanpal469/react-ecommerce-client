@@ -91,6 +91,14 @@ function App() {
       ),
     },
     {
+      path: "/admin/product-form/edit/:id",
+      element: (
+        <ProtectedAdmin>
+          <AdminProductFormPage/>
+        </ProtectedAdmin>
+      ),
+    },
+    {
       path: "/order-success/:id",
       element: (
         <Protected>
