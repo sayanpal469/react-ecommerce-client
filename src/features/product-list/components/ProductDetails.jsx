@@ -32,12 +32,16 @@ export default function ProductDetails() {
   const handleCart = (e) => {
     e.preventDefault();
 
-    const cartItem = { ...product, quantity: 1, user };
-
-    if (user) {
-      dispatch(addToCartAsync(cartItem));
+    if (items.findIndex((item) => item.productId === product.id) < 0) {
+      const cartItem = { ...product, productId: product.id, quantity: 1, user };
+      delete cartItem["id"];
+      if (user) {
+        dispatch(addToCartAsync(cartItem));
+      } else {
+        console.log("User is not logged in. Handle accordingly.");
+      }
     } else {
-      console.log("User is not logged in. Handle accordingly.");
+      alert("Already added");
     }
   };
 

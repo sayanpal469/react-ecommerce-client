@@ -22,9 +22,9 @@ import ProtectedAdmin from "./features/auth/components/ProtectedAdmin";
 import AdminHome from "./pages/AdminHome";
 import AdminProductDetailsPage from "./pages/AdminProductDetailsPage";
 import AdminProductFormPage from "./pages/AdminProductFormPage";
+import AdminOrdersPage from "./pages/AdminOrdersPage";
 
 function App() {
-  
   const router = createBrowserRouter([
     {
       path: "/",
@@ -38,7 +38,7 @@ function App() {
       path: "/admin",
       element: (
         <ProtectedAdmin>
-          <AdminHome/>
+          <AdminHome />
         </ProtectedAdmin>
       ),
     },
@@ -78,7 +78,7 @@ function App() {
       path: "/admin/product-details/:id",
       element: (
         <ProtectedAdmin>
-          <AdminProductDetailsPage/>
+          <AdminProductDetailsPage />
         </ProtectedAdmin>
       ),
     },
@@ -86,7 +86,7 @@ function App() {
       path: "/admin/product-form/",
       element: (
         <ProtectedAdmin>
-          <AdminProductFormPage/>
+          <AdminProductFormPage />
         </ProtectedAdmin>
       ),
     },
@@ -94,7 +94,15 @@ function App() {
       path: "/admin/product-form/edit/:id",
       element: (
         <ProtectedAdmin>
-          <AdminProductFormPage/>
+          <AdminProductFormPage />
+        </ProtectedAdmin>
+      ),
+    },
+    {
+      path: "/admin/orders",
+      element: (
+        <ProtectedAdmin>
+          <AdminOrdersPage />
         </ProtectedAdmin>
       ),
     },
@@ -118,17 +126,17 @@ function App() {
       path: "/profile",
       element: (
         <Protected>
-          <UserProfilePage/>
+          <UserProfilePage />
         </Protected>
       ),
     },
     {
       path: "/logout",
-      element: <LogOut/>
+      element: <LogOut />,
     },
     {
       path: "/forgotPassword",
-      element: <ForgotPasswordPage/>
+      element: <ForgotPasswordPage />,
     },
     {
       path: "*",
@@ -144,7 +152,7 @@ function App() {
   useEffect(() => {
     if (user) {
       dispatch(fetchItemsByUserIdAsync(user.id));
-      dispatch(fetchLoggedInUserAsync(user.id))
+      dispatch(fetchLoggedInUserAsync(user.id));
     }
   }, [dispatch, user]);
 

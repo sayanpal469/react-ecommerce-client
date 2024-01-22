@@ -11,9 +11,10 @@ import { selectItems } from "../cart/cartSlice";
 import { selectedLoggedInUser } from "../auth/authSlice";
 
 const navigation = [
-  { name: "Dashboard", to: "/", user: true },
+  { name: "Products", to: "/", user: true },
   { name: "Checkout", to: "/checkout", user: true },
-  { name: "Admin", to: "/admin", admin: true },
+  { name: "Products", to: "/admin", admin: true },
+  { name: "Orders", to: "/admin/orders", admin: true },
 ];
 const userNavigation = [
   { name: "My Profile", link: "/profile" },
@@ -221,7 +222,7 @@ const Navbar = ({ children }) => {
         </div>
       </header>
       <main>
-        <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">{children}</div>
+        <div className="mx-auto py-6 sm:px-6 lg:px-8">{children}</div>
       </main>
     </div>
   );
