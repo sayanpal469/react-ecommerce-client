@@ -62,7 +62,7 @@ export const authSlice = createSlice({
       })
       .addCase(checkUserAsync.rejected, (state, action) => {
         state.status = "idle";
-        state.error = action.payload.message; // Assuming action.payload has a message property
+        state.error = action.payload.message;
       })
       .addCase(updateUserAsync.pending, (state) => {
         state.status = "loading";

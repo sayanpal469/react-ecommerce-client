@@ -11,6 +11,9 @@ const Login = () => {
   const dispatch = useDispatch();
   const error = useSelector(selectedError);
   const user = useSelector(selectedLoggedInUser);
+
+  // console.log(user)
+
   const {
     register,
     handleSubmit,

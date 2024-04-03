@@ -33,7 +33,8 @@ export default function ProductDetails() {
     e.preventDefault();
 
     if (items.findIndex((item) => item.productId === product.id) < 0) {
-      const cartItem = { ...product, productId: product.id, quantity: 1, user };
+      const cartItem = { ...product, product: product.id, quantity: 1, user: user.id };
+      console.log(cartItem)
       delete cartItem["id"];
       if (user) {
         dispatch(addToCartAsync(cartItem));
@@ -45,7 +46,7 @@ export default function ProductDetails() {
     }
   };
 
-  console.log(items);
+  // console.log(items);
 
   useEffect(() => {
     dispatch(fetchProductByIdAsync(params.id));

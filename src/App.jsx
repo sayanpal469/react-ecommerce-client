@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchItemsByUserIdAsync } from "./features/cart/cartSlice";
 import { selectedLoggedInUser } from "./features/auth/authSlice";
-import { selectTotalItems } from "./features/product-list/productListSlice";
+// import { selectTotalItems } from "./features/product-list/productListSlice";
 import PageNotFound from "./pages/PageNotFound";
 import OrderSuccess from "./pages/OrderSuccess";
 import UserOrderPage from "./pages/UserOrderPage";
@@ -146,8 +146,8 @@ function App() {
 
   const dispatch = useDispatch();
   const user = useSelector(selectedLoggedInUser);
-  const items = useSelector(selectTotalItems);
-  console.log(items);
+  // const items = useSelector(selectTotalItems);
+  console.log(user);
 
   useEffect(() => {
     if (user) {

@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 export const createUser = (userData) => {
   return new Promise((resolve) => {
-    fetch("http://localhost:8080/users", {
+    fetch("http://localhost:8080/auth/signup", {
       method: "POST",
       body: JSON.stringify(userData),
       headers: {
@@ -20,27 +20,28 @@ export const createUser = (userData) => {
   });
 };
 
-export const checkUser = (loginInfo) => {
-  return new Promise((resolve, reject) => {
-    const email = loginInfo.email;
-    const password = loginInfo.password;
-    fetch("http://localhost:8080/users?email=" + email)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.length === 1) {
-          if (password === data[0].password) {
-            resolve({ data: data[0] });
-          } else {
-            reject({ message: "wrong credentials" });
-          }
-        } else {
-          reject({ message: "User not found" });
-        }
-      })
-      .catch((error) => {
-        reject({ error: error.message });
-      });
-  });
+export const checkUser = async (loginInfo) => {
+  try {
+    const response = await fetch("http://localhost:8080/auth/login", {
+      method: "POST",
+      body: JSON.stringify(loginInfo),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      // Handle HTTP errors
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to authenticate");
+    } else {
+      const data = await response.json();
+      console.log(data)
+      return { data };
+    }
+  } catch (error) {
+    return { error };
+  }
 };
 
 export const signOut = () => {

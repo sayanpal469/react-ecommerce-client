@@ -21,7 +21,7 @@ export const addToCart = (item) => {
 
 export const fetchItemsByUserId = (userId) => {
   return new Promise((resolve, reject) => {
-    fetch(`http://localhost:8080/cart?user.id=${userId}`)
+    fetch(`http://localhost:8080/cart?user=${userId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
