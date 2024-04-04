@@ -1,6 +1,6 @@
 export const fetchLoggedInUserOrder = (userId) => {
   return new Promise((resolve, reject) => {
-    fetch(`http://localhost:8080/orders/?user.id=${userId}`)
+    fetch(`http://localhost:8080/orders/user/${userId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

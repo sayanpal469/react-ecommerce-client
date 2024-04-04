@@ -147,7 +147,7 @@ function App() {
   const dispatch = useDispatch();
   const user = useSelector(selectedLoggedInUser);
   // const items = useSelector(selectTotalItems);
-  console.log(user);
+  // console.log(user);
 
   useEffect(() => {
     if (user) {

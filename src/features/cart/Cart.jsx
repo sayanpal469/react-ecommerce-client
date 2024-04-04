@@ -8,7 +8,9 @@ const Cart = () => {
 
   const totalAmount = items.reduce(
     (amount, item) =>
-      item && item.quantity ? item.product.price * item.quantity + amount : amount,
+      item && item.quantity
+        ? item.product.price * item.quantity + amount
+        : amount,
     0
   );
 
@@ -21,7 +23,12 @@ const Cart = () => {
     const value = Number(e.target.value);
     // const newQuantity = item.quantity + value;
 
-    dispatch(updateCartAsync({ id: item.id, quantity: +value }));
+    dispatch(
+      updateCartAsync({
+        id: item._id,
+        quantity: +value,
+      })
+    );
   };
 
   const handelDeleteFromCart = (itemId) => {
@@ -71,7 +78,10 @@ const Cart = () => {
                             >
                               Qty
                             </label>
-                            <select onChange={(e) => handleQuantity(e, item)} value={item.quantity}>
+                            <select
+                              onChange={(e) => handleQuantity(e, item)}
+                              value={item.quantity}
+                            >
                               {[1, 2, 3, 4, 5].map((value) => (
                                 <option key={value} value={value}>
                                   {value}

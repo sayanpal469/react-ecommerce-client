@@ -14,24 +14,24 @@ const UserProfile = () => {
   const [selectedEditIndex, setSelectedEditIndex] = useState(-1);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const dispatch = useDispatch();
-  const user = useSelector(selectUserInfo);
+  const userInfo = useSelector(selectUserInfo);
 
   const handelEdit = (addressUpdate, index) => {
-    const newUser = { ...user, addresses: [...user.addresses] };
+    const newUser = { ...userInfo, addresses: [...userInfo.addresses] };
     newUser.addresses.splice(index, 1, addressUpdate);
     dispatch(updateUserAsync(newUser));
     setSelectedEditIndex(-1);
   };
 
   const handelRemove = (e, index) => {
-    const newUser = { ...user, addresses: [...user.addresses] };
+    const newUser = { ...userInfo, addresses: [...userInfo.addresses] };
     newUser.addresses.splice(index, 1);
     dispatch(updateUserAsync(newUser));
   };
 
   const handelEditForm = (index) => {
     setSelectedEditIndex(index);
-    const address = user.addresses[index];
+    const address = userInfo.addresses[index];
     setValue("firstName", address.firstName);
     setValue("lastName", address.lastName);
     setValue("email", address.email);
@@ -44,7 +44,7 @@ const UserProfile = () => {
   };
 
   const handelAdd = (address) => {
-    const newUser = { ...user, addresses: [...user.addresses, address] };
+    const newUser = { ...userInfo, addresses: [...userInfo.addresses, address] };
     dispatch(updateUserAsync(newUser));
     setShowAddressForm(false);
   };
@@ -53,10 +53,10 @@ const UserProfile = () => {
     <div>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10">
         <div className="flex h-full flex-col bg-white shadow-xl p-5">
-          <h3 className="text-sm px-5 font-medium">Email: {user.email}</h3>
-          {user.role === "admin" && (
+          <h3 className="text-sm px-5 font-medium">Email: {userInfo.email}</h3>
+          {userInfo.role === "admin" && (
             <h3 className="text-sm px-5 capitalize font-medium">
-              Role: {user.role}
+              Role: {userInfo.role}
             </h3>
           )}
 
@@ -335,7 +335,7 @@ const UserProfile = () => {
               </form>
             ) : null}
             <div role="list" className="divide-y divide-gray-100 my-5">
-              {user.addresses.map((address, index) => (
+              {userInfo.addresses.map((address, index) => (
                 <div key={index}>
                   {/* form */}
                   <div className="lg:col-span-3 bg-white p-5">

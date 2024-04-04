@@ -176,9 +176,9 @@ const AdminOrders = () => {
                             <div key={index} className="flex items-center">
                               <div className="mr-2">
                                 <img
-                                  className="w-6 h-6 rounded-full"
-                                  src={item.thumbnail}
-                                  alt={item.title}
+                                  className="w-10 h-10 "
+                                  src={item.product.thumbnail}
+                                  alt={item.product.title}
                                 />
                               </div>
                               <span>

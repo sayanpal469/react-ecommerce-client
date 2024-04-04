@@ -1,17 +1,4 @@
 // productListApi.js
-export const fetchAllProducts = async () => {
-  try {
-    const response = await fetch("http://localhost:8080/products");
-    if (!response.ok) {
-      throw new Error("Failed to fetch products");
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    throw error;
-  }
-};
 
 export const fetchProductById = async (id) => {
   try {
@@ -89,15 +76,14 @@ export function createProduct(product) {
       method: "POST",
       body: JSON.stringify(product),
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
       .then((response) => response.json())
       .then((data) => resolve({ data }))
       .catch((error) => resolve({ error: error.message }));
   });
 }
-
 
 export const updateProduct = (update) => {
   return new Promise((resolve, reject) => {

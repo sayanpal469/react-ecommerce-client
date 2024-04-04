@@ -6,13 +6,12 @@ import {
   updateCartAsync,
 } from "../features/cart/cartSlice";
 import { useForm } from "react-hook-form";
-import { updateUserAsync } from "../features/auth/authSlice";
 import { useState } from "react";
 import {
   createOrderAsync,
   selectCurrentOrder,
 } from "../features/order/orderSlice";
-import { selectUserInfo } from "../features/user/userSlice";
+import { selectUserInfo, updateUserAsync } from "../features/user/userSlice";
 
 const CheckOut = () => {
   const dispatch = useDispatch();
@@ -25,12 +24,14 @@ const CheckOut = () => {
     formState: { errors },
   } = useForm();
   const items = useSelector(selectItems);
-  const user = useSelector(selectUserInfo);
+  const userInfo = useSelector(selectUserInfo);
   const currentOrder = useSelector(selectCurrentOrder);
 
   const totalAmount = items.reduce(
     (amount, item) =>
-      item && item.quantity ? item.product.price * item.quantity + amount : amount,
+      item && item.quantity
+        ? item.product.price * item.quantity + amount
+        : amount,
     0
   );
 
@@ -41,9 +42,8 @@ const CheckOut = () => {
 
   const handleQuantity = (e, item) => {
     const value = Number(e.target.value);
-    // const newQuantity = item.quantity + value;
 
-    dispatch(updateCartAsync({ id: item.id, quantity: +value }));
+    dispatch(updateCartAsync({ id: item._id, quantity: +value }));
   };
 
   const handelDeleteFromCart = (itemId) => {
@@ -52,12 +52,12 @@ const CheckOut = () => {
   };
 
   const handelAddress = (e) => {
-    console.log(e.target.value);
-    setSelectedAddress(user.addresses[e.target.value]);
+    // console.log(e.target.value);
+    setSelectedAddress(userInfo.addresses[e.target.value]);
   };
 
   const handelPayment = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setPaymentMethod(e.target.value);
   };
 
@@ -66,11 +66,13 @@ const CheckOut = () => {
       items,
       totalAmount,
       totalItems,
-      user,
+      user: userInfo.id,
       selectedAddress,
       paymentMethod,
       status: "pending",
     };
+
+    // console.log(order);
     dispatch(createOrderAsync(order));
   };
 
@@ -89,8 +91,8 @@ const CheckOut = () => {
                 console.log(data);
                 dispatch(
                   updateUserAsync({
-                    ...user,
-                    addresses: [...user.addresses, data],
+                    ...userInfo,
+                    addresses: [...userInfo.addresses, data],
                   })
                 );
                 reset();
@@ -359,7 +361,7 @@ const CheckOut = () => {
                     </p>
 
                     <ul role="list" className="divide-y divide-gray-100 my-5">
-                      {user.addresses.map((person, index) => (
+                      {userInfo.addresses.map((person, index) => (
                         <li
                           key={index}
                           className="flex justify-between gap-x-6 py-5 border p-5"
@@ -492,7 +494,7 @@ const CheckOut = () => {
                                   <p className="ml-4">${item?.product.price}</p>
                                 </div>
                                 <p className="mt-1 text-sm text-gray-500">
-                                  {item.color}
+                                  {item.product.color}
                                 </p>
                               </div>
                               <div className="flex flex-1 items-end justify-between text-sm">
