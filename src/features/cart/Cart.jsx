@@ -1,10 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import { deleteCartItemAsync, selectItems, updateCartAsync } from "./cartSlice";
+import { deleteCartItemAsync, fetchItemsByUserIdAsync, selectItems, updateCartAsync } from "./cartSlice";
+import { selectedLoggedInUser } from "../auth/authSlice";
+import { useEffect } from "react";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const items = useSelector(selectItems);
+  const user = useSelector(selectedLoggedInUser);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchItemsByUserIdAsync(user.id));
+      // dispatch(fetchLoggedInUserAsync(user.id));
+    }
+  }, [dispatch, user]);
+
 
   const totalAmount = items.reduce(
     (amount, item) =>
@@ -25,7 +36,7 @@ const Cart = () => {
 
     dispatch(
       updateCartAsync({
-        id: item._id,
+        id: item.id,
         quantity: +value,
       })
     );
@@ -92,7 +103,7 @@ const Cart = () => {
 
                           <div className="flex">
                             <button
-                              onClick={() => handelDeleteFromCart(item._id)}
+                              onClick={() => handelDeleteFromCart(item.id)}
                               type="button"
                               className="font-medium text-indigo-600 hover:text-indigo-500"
                             >

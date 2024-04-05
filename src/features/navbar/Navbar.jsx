@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -9,13 +9,9 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectItems } from "../cart/cartSlice";
 import { selectedLoggedInUser } from "../auth/authSlice";
+import logo from "../../assets/logo.jpg";
+import userLogo from "../../assets/user.jpg";
 
-const navigation = [
-  { name: "Products", to: "/", user: true },
-  { name: "Checkout", to: "/checkout", user: true },
-  { name: "Products", to: "/admin", admin: true },
-  { name: "Orders", to: "/admin/orders", admin: true },
-];
 const userNavigation = [
   { name: "My Profile", link: "/profile" },
   { name: "My Orders", link: "/orders" },
@@ -31,22 +27,42 @@ const Navbar = ({ children }) => {
   const cartItem = useSelector(selectItems);
   const cartItemCount = cartItem.length;
   const user = useSelector(selectedLoggedInUser);
-  // console.log(cartItem)
+
+  // console.log(user);
+  const [navigation, setNavigation] = useState([
+    { name: "Products", to: "/", user: true, current: true },
+    { name: "Checkout", to: "/checkout", user: true, current: false },
+    { name: "Products", to: "/admin", admin: true, current: true },
+    { name: "Orders", to: "/admin/orders", admin: true, current: false },
+  ]);
+
+  const handleClick = (clickedItemName) => {
+    const updatedNavigation = navigation.map((item) => {
+      if (item.name === clickedItemName) {
+        return { ...item, current: true };
+      } else {
+        return { ...item, current: false };
+      }
+    });
+    setNavigation(updatedNavigation);
+  };
 
   return (
     <div className="min-h-full">
-      <Disclosure as="nav" className="bg-gray-800">
+      <Disclosure as="nav" className="bg-white">
         {({ open }) => (
           <>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="flex h-16 items-center justify-between">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <img
-                      className="h-8 w-8"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                      alt="Your Company"
-                    />
+                    <Link to="/">
+                      <img
+                        className="h-20 w-20"
+                        src={logo}
+                        alt="Your Company"
+                      />
+                    </Link>
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
@@ -55,10 +71,11 @@ const Navbar = ({ children }) => {
                           <Link
                             key={item.name}
                             to={item.to}
+                            onClick={() => handleClick(item.name)}
                             className={classNames(
                               item.current
-                                ? "bg-gray-900 text-white"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                                ? "bg-blue-500 text-white"
+                                : "text-gray-800 hover:bg-blue-500 hover:text-white",
                               "rounded-md px-3 py-2 text-sm font-medium"
                             )}
                             aria-current={item.current ? "page" : undefined}
@@ -72,22 +89,26 @@ const Navbar = ({ children }) => {
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-4 flex items-center md:ml-6">
-                    <Link
-                      to="/cart"
-                      type="button"
-                      className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                    >
-                      <span className="absolute -inset-1.5" />
-                      <span className="sr-only">View notifications</span>
-                      <ShoppingCartIcon
-                        className="h-6 w-6"
-                        aria-hidden="true"
-                      />
-                    </Link>
-                    {cartItemCount > 0 && (
-                      <span className="inline-flex items-center rounded-md bg-red-50 mb-5 mr-3 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                        {cartItemCount}
-                      </span>
+                    {user.role !== "admin" && (
+                      <>
+                        <Link
+                          to="/cart"
+                          type="button"
+                          className="relative rounded-full bg-blue-500 p-1 text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                        >
+                          <span className="absolute -inset-1.5" />
+                          <span className="sr-only">View notifications</span>
+                          <ShoppingCartIcon
+                            className="h-6 w-6"
+                            aria-hidden="true"
+                          />
+                        </Link>
+                        {cartItemCount > 0 && (
+                          <span className="inline-flex items-center rounded-md bg-orange-500 mb-5 mr-3 px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-orange-600/10">
+                            {cartItemCount}
+                          </span>
+                        )}
+                      </>
                     )}
 
                     {/* Profile dropdown */}
@@ -97,8 +118,8 @@ const Navbar = ({ children }) => {
                           <span className="absolute -inset-1.5" />
                           <span className="sr-only">Open user menu</span>
                           <img
-                            className="h-8 w-8 rounded-full"
-                            src={user.imageUrl}
+                            className="h-10 w-10 rounded-full"
+                            src={userLogo}
                             alt=""
                           />
                         </Menu.Button>

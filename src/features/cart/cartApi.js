@@ -99,7 +99,8 @@ export const resetCart = (userId) => {
       // Fetch items associated with the user ID
       const response = await fetchItemsByUserId(userId);
       const items = response.data;
-
+      
+      console.log(items)
       // Iterate through each item and delete it
       for (const item of items) {
         await deleteCartItem(item.id);

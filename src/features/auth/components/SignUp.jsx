@@ -1,10 +1,18 @@
 import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { createUserAsync, selectedLoggedInUser } from "../authSlice";
+import {
+  createUserAsync,
+  selectedError,
+  selectedLoggedInUser,
+} from "../authSlice";
+import logo from "../../../assets/logo.jpg";
+
 
 export const SignUp = () => {
   const dispatch = useDispatch();
+  const error = useSelector(selectedError);
+
   const {
     register,
     handleSubmit,
@@ -16,12 +24,12 @@ export const SignUp = () => {
 
   return (
     <>
-      {user && <Navigate to='/' replace={true}/>}
+      {user && <Navigate to="/" replace={true} />}
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
-            className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+            className="mx-auto h-36 w-auto"
+            src={logo}
             alt="Your Company"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -34,7 +42,12 @@ export const SignUp = () => {
             className="space-y-6"
             onSubmit={handleSubmit((data) => {
               dispatch(
-                createUserAsync({ email: data.email, password: data.password, addresses: [], role: 'user' })
+                createUserAsync({
+                  email: data.email,
+                  password: data.password,
+                  addresses: [],
+                  role: "user",
+                })
               );
               // console.log(data)
             })}
@@ -117,6 +130,11 @@ export const SignUp = () => {
                 Sign Up
               </button>
             </div>
+            {error && (
+              <p className="text-red-500 font-bold text-lg text-center">
+                {error}
+              </p>
+            )}
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">

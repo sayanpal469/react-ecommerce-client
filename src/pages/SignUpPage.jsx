@@ -2,7 +2,7 @@ import { SignUp } from "../features/auth/components/SignUp";
 
 const SignUpPage = () => {
   return (
-    <div>
+    <div className="bg-white">
       <SignUp />
     </div>
   );

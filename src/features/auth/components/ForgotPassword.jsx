@@ -1,24 +1,42 @@
 import { useForm } from "react-hook-form";
-// import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../../../assets/logo.jpg";
+import {
+  selectedForgotError,
+  selectedForgotSuccess,
+  updateUserAsync,
+} from "../../user/userSlice";
+import { useEffect, useState } from "react";
 
 const ForgotPassword = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const error = useSelector(selectedForgotError);
+  const success = useSelector(selectedForgotSuccess);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  // console.log(success);
+
+  useEffect(() => {
+    if (success) {
+      setIsSuccess(true);
+      if (isSuccess) {
+        navigate("/login");
+      }
+    }
+  }, [isSuccess, navigate, success]);
+
   return (
     <>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-white">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt="Your Company"
-          />
+          <img className="mx-auto h-36 w-auto" src={logo} alt="Your Company" />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Enter email to reset password
           </h2>
@@ -29,7 +47,9 @@ const ForgotPassword = () => {
             className="space-y-6"
             noValidate
             onSubmit={handleSubmit((data) => {
-              console.log(data);
+              dispatch(
+                updateUserAsync({ email: data.email, password: data.password })
+              );
             })}
           >
             <div>
@@ -55,22 +75,14 @@ const ForgotPassword = () => {
               </div>
             </div>
 
-            {/* <div>
+            <div>
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="password"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Password
+                  New password
                 </label>
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
               </div>
               <div className="mt-2">
                 <input
@@ -88,17 +100,21 @@ const ForgotPassword = () => {
                   </p>
                 )}
               </div>
-              {error && <p className="text-red-500 text-sm">{error.message}</p>}
-            </div> */}
+            </div>
 
             <div>
               <button
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Send Email
+                Update password
               </button>
             </div>
+            {error && (
+              <p className="text-red-500 font-bold text-lg text-center">
+                {error}
+              </p>
+            )}
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">

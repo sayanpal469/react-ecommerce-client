@@ -1,18 +1,21 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   checkUserAsync,
   selectedError,
   selectedLoggedInUser,
 } from "../authSlice";
+import logo from "../../../assets/logo.jpg";
+import { setSuccess } from "../../user/userSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
   const error = useSelector(selectedError);
   const user = useSelector(selectedLoggedInUser);
+  const navigate = useNavigate()
 
-  // console.log(user)
+  // console.log(user);
 
   const {
     register,
@@ -20,16 +23,17 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+  const handleForgot = () => {
+    dispatch(setSuccess())
+    navigate("/forgotPassword")
+  };
+
   return (
     <>
-    {user && <Navigate to='/' replace={true}/>}
+      {user && <Navigate to="/" replace={true} />}
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt="Your Company"
-          />
+          <img className="mx-auto h-36 w-auto" src={logo} alt="Your Company" />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Login to your account
           </h2>
@@ -77,12 +81,12 @@ const Login = () => {
                   Password
                 </label>
                 <div className="text-sm">
-                  <Link
-                    to="/forgotPassword"
+                  <button
+                    onClick={handleForgot}
                     className="font-semibold text-indigo-600 hover:text-indigo-500"
                   >
                     Forgot password?
-                  </Link>
+                  </button>
                 </div>
               </div>
               <div className="mt-2">
@@ -101,7 +105,6 @@ const Login = () => {
                   </p>
                 )}
               </div>
-              {error && <p className="text-red-500 text-sm">{error.message}</p>}
             </div>
 
             <div>
@@ -112,6 +115,11 @@ const Login = () => {
                 Login
               </button>
             </div>
+            {error && (
+              <p className="text-red-500 font-bold text-lg text-center">
+                {error}
+              </p>
+            )}
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">

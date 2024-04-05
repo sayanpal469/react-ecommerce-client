@@ -43,7 +43,7 @@ const CheckOut = () => {
   const handleQuantity = (e, item) => {
     const value = Number(e.target.value);
 
-    dispatch(updateCartAsync({ id: item._id, quantity: +value }));
+    dispatch(updateCartAsync({ id: item.id, quantity: +value }));
   };
 
   const handelDeleteFromCart = (itemId) => {

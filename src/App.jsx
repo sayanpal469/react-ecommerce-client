@@ -23,6 +23,7 @@ import AdminHome from "./pages/AdminHome";
 import AdminProductDetailsPage from "./pages/AdminProductDetailsPage";
 import AdminProductFormPage from "./pages/AdminProductFormPage";
 import AdminOrdersPage from "./pages/AdminOrdersPage";
+import { Navigate } from "react-router-dom";
 
 function App() {
   const router = createBrowserRouter([
@@ -146,13 +147,16 @@ function App() {
 
   const dispatch = useDispatch();
   const user = useSelector(selectedLoggedInUser);
-  // const items = useSelector(selectTotalItems);
-  // console.log(user);
 
   useEffect(() => {
     if (user) {
       dispatch(fetchItemsByUserIdAsync(user.id));
       dispatch(fetchLoggedInUserAsync(user.id));
+      if (user.role == "admin") {
+        <Navigate to="/admin" replace={true} />;
+      } else {
+        <Navigate to="/" replace={true} />;
+      }
     }
   }, [dispatch, user]);
 

@@ -2,7 +2,7 @@ import Login from "../features/auth/components/Login";
 
 const LoginPage = () => {
   return (
-    <div>
+    <div className="bg-white">
       <Login />
     </div>
   );

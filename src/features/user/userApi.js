@@ -38,23 +38,26 @@ export const fetchLoggedInUser = (userId) => {
   });
 };
 
-
-export const updateUser = (update) => {
-  return new Promise((resolve) => {
-    fetch(`http://localhost:8080/users/${update.id}`, {
+export const updateUser = async (update) => {
+  try {
+    const response = await fetch("http://localhost:8080/users/update", {
       method: "PATCH",
       body: JSON.stringify(update),
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        resolve({ data });
-      })
-      .catch((error) => {
-        // Handle any errors here and reject the Promise if needed
-        resolve({ error: error.message });
-      });
-  });
+    });
+
+    // console.log(response)
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return { error: errorData || "Failed to authenticate" };
+    } else {
+      const data = await response.json();
+      return { data };
+    }
+  } catch (error) {
+    return { error };
+  }
 };
