@@ -2,7 +2,9 @@
 
 export const fetchProductById = async (id) => {
   try {
-    const response = await fetch("http://localhost:8080/products/" + id);
+    const response = await fetch(
+      "https://react-ecommerce-server.onrender.com/products/" + id
+    );
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -39,7 +41,7 @@ export function fetchProductsByFilters(filter, sort, pagination, admin) {
   }
 
   return new Promise((resolve) => {
-    fetch("http://localhost:8080/products?" + queryString)
+    fetch("https://react-ecommerce-server.onrender.com/products?" + queryString)
       .then(async (response) => {
         const data = await response.json();
         const totalItems = await response.headers.get("X-Total-Count");
@@ -54,7 +56,7 @@ export function fetchProductsByFilters(filter, sort, pagination, admin) {
 
 export function fetchCategories() {
   return new Promise((resolve) => {
-    fetch("http://localhost:8080/categories")
+    fetch("https://react-ecommerce-server.onrender.com/categories")
       .then((response) => response.json())
       .then((data) => resolve({ data }))
       .catch((error) => resolve({ error: error.message }));
@@ -63,7 +65,7 @@ export function fetchCategories() {
 
 export function fetchBrands() {
   return new Promise((resolve) => {
-    fetch("http://localhost:8080/brands")
+    fetch("https://react-ecommerce-server.onrender.com/brands")
       .then((response) => response.json())
       .then((data) => resolve({ data }))
       .catch((error) => resolve({ error: error.message }));
@@ -72,7 +74,7 @@ export function fetchBrands() {
 
 export function createProduct(product) {
   return new Promise((resolve) => {
-    fetch("http://localhost:8080/products", {
+    fetch("https://react-ecommerce-server.onrender.com/products", {
       method: "POST",
       body: JSON.stringify(product),
       headers: {
@@ -87,7 +89,7 @@ export function createProduct(product) {
 
 export const updateProduct = (update) => {
   return new Promise((resolve, reject) => {
-    fetch(`http://localhost:8080/products/${update.id}`, {
+    fetch(`https://react-ecommerce-server.onrender.com/products/${update.id}`, {
       // Correct URL construction
       method: "PATCH",
       body: JSON.stringify(update),

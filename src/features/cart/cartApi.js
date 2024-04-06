@@ -1,7 +1,7 @@
 /* eslint-disable no-async-promise-executor */
 export const addToCart = (item) => {
   return new Promise((resolve) => {
-    fetch("http://localhost:8080/cart", {
+    fetch("https://react-ecommerce-server.onrender.com/cart", {
       method: "POST",
       body: JSON.stringify(item),
       headers: {
@@ -21,7 +21,7 @@ export const addToCart = (item) => {
 
 export const fetchItemsByUserId = (userId) => {
   return new Promise((resolve, reject) => {
-    fetch(`http://localhost:8080/cart?user=${userId}`)
+    fetch(`https://react-ecommerce-server.onrender.com/cart?user=${userId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -41,7 +41,7 @@ export const fetchItemsByUserId = (userId) => {
 
 export const updateCart = (update) => {
   return new Promise((resolve, reject) => {
-    fetch(`http://localhost:8080/cart/${update.id}`, {
+    fetch(`https://react-ecommerce-server.onrender.com/cart/${update.id}`, {
       // Correct URL construction
       method: "PATCH",
       body: JSON.stringify(update),
@@ -69,7 +69,7 @@ export const updateCart = (update) => {
 
 export const deleteCartItem = (itemId) => {
   return new Promise((resolve, reject) => {
-    fetch(`http://localhost:8080/cart/${itemId}`, {
+    fetch(`https://react-ecommerce-server.onrender.com/cart/${itemId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -99,8 +99,8 @@ export const resetCart = (userId) => {
       // Fetch items associated with the user ID
       const response = await fetchItemsByUserId(userId);
       const items = response.data;
-      
-      console.log(items)
+
+      console.log(items);
       // Iterate through each item and delete it
       for (const item of items) {
         await deleteCartItem(item.id);

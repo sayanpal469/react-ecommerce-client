@@ -1,6 +1,6 @@
 export const createOrder = (order) => {
   return new Promise((resolve) => {
-    fetch("http://localhost:8080/orders", {
+    fetch("https://react-ecommerce-server.onrender.com/orders", {
       method: "POST",
       body: JSON.stringify(order),
       headers: {
@@ -19,7 +19,7 @@ export const createOrder = (order) => {
 
 export const updateOrder = (order) => {
   return new Promise((resolve) => {
-    fetch(`http://localhost:8080/orders/${order.id}`, {
+    fetch(`https://react-ecommerce-server.onrender.com/orders/${order.id}`, {
       method: "PATCH",
       body: JSON.stringify(order),
       headers: {
@@ -48,7 +48,9 @@ export async function fetchAllOrders(sort, pagination) {
   }
 
   try {
-    const response = await fetch("http://localhost:8080/orders?" + queryString);
+    const response = await fetch(
+      "https://react-ecommerce-server.onrender.com/orders?" + queryString
+    );
     const data = await response.json();
     const totalOrders = await response.headers.get("X-Total-Count");
 
@@ -58,6 +60,3 @@ export async function fetchAllOrders(sort, pagination) {
     return { error: error.message };
   }
 }
-
-
-
