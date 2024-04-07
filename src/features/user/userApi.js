@@ -1,6 +1,6 @@
 export const fetchLoggedInUserOrder = (userId) => {
   return new Promise((resolve, reject) => {
-    fetch(`https://react-ecommerce-server.onrender.com/orders/user/${userId}`)
+    fetch(`http://localhost:8080/orders/user/${userId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -20,7 +20,7 @@ export const fetchLoggedInUserOrder = (userId) => {
 
 export const fetchLoggedInUser = (userId) => {
   return new Promise((resolve, reject) => {
-    fetch(`https://react-ecommerce-server.onrender.com/users/${userId}`)
+    fetch(`http://localhost:8080/users/${userId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -40,16 +40,13 @@ export const fetchLoggedInUser = (userId) => {
 
 export const updateUser = async (update) => {
   try {
-    const response = await fetch(
-      "https://react-ecommerce-server.onrender.com/users/update",
-      {
-        method: "PATCH",
-        body: JSON.stringify(update),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch("http://localhost:8080/users/update", {
+      method: "PATCH",
+      body: JSON.stringify(update),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     // console.log(response)
 

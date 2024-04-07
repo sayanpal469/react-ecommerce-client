@@ -1,7 +1,7 @@
 /* eslint-disable no-async-promise-executor */
 export const addToCart = (item) => {
   return new Promise((resolve) => {
-    fetch("https://react-ecommerce-server.onrender.com/cart", {
+    fetch("http://localhost:8080/cart", {
       method: "POST",
       body: JSON.stringify(item),
       headers: {
@@ -21,7 +21,7 @@ export const addToCart = (item) => {
 
 export const fetchItemsByUserId = (userId) => {
   return new Promise((resolve, reject) => {
-    fetch(`https://react-ecommerce-server.onrender.com/cart?user=${userId}`)
+    fetch(`http://localhost:8080/cart?user=${userId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -41,7 +41,7 @@ export const fetchItemsByUserId = (userId) => {
 
 export const updateCart = (update) => {
   return new Promise((resolve, reject) => {
-    fetch(`https://react-ecommerce-server.onrender.com/cart/${update.id}`, {
+    fetch(`http://localhost:8080/cart/${update.id}`, {
       // Correct URL construction
       method: "PATCH",
       body: JSON.stringify(update),
@@ -69,7 +69,7 @@ export const updateCart = (update) => {
 
 export const deleteCartItem = (itemId) => {
   return new Promise((resolve, reject) => {
-    fetch(`https://react-ecommerce-server.onrender.com/cart/${itemId}`, {
+    fetch(`http://localhost:8080/cart/${itemId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

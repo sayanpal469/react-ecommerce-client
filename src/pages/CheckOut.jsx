@@ -26,6 +26,7 @@ const CheckOut = () => {
   const items = useSelector(selectItems);
   const userInfo = useSelector(selectUserInfo);
   const currentOrder = useSelector(selectCurrentOrder);
+  console.log(userInfo)
 
   const totalAmount = items.reduce(
     (amount, item) =>
@@ -53,7 +54,7 @@ const CheckOut = () => {
 
   const handelAddress = (e) => {
     // console.log(e.target.value);
-    setSelectedAddress(userInfo.addresses[e.target.value]);
+    setSelectedAddress(userInfo.user.addresses[e.target.value]);
   };
 
   const handelPayment = (e) => {
@@ -66,7 +67,7 @@ const CheckOut = () => {
       items,
       totalAmount,
       totalItems,
-      user: userInfo.id,
+      user: userInfo.user.id,
       selectedAddress,
       paymentMethod,
       status: "pending",
@@ -91,8 +92,8 @@ const CheckOut = () => {
                 console.log(data);
                 dispatch(
                   updateUserAsync({
-                    ...userInfo,
-                    addresses: [...userInfo.addresses, data],
+                    ...userInfo.user,
+                    addresses: [...userInfo.user.addresses, data],
                   })
                 );
                 reset();
@@ -361,7 +362,7 @@ const CheckOut = () => {
                     </p>
 
                     <ul role="list" className="divide-y divide-gray-100 my-5">
-                      {userInfo.addresses.map((person, index) => (
+                      {userInfo?.user.addresses.map((person, index) => (
                         <li
                           key={index}
                           className="flex justify-between gap-x-6 py-5 border p-5"

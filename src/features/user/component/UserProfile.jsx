@@ -17,21 +17,21 @@ const UserProfile = () => {
   const userInfo = useSelector(selectUserInfo);
 
   const handelEdit = (addressUpdate, index) => {
-    const newUser = { ...userInfo, addresses: [...userInfo.addresses] };
+    const newUser = { ...userInfo.user, addresses: [...userInfo.user.addresses] };
     newUser.addresses.splice(index, 1, addressUpdate);
     dispatch(updateUserAsync(newUser));
     setSelectedEditIndex(-1);
   };
 
   const handelRemove = (e, index) => {
-    const newUser = { ...userInfo, addresses: [...userInfo.addresses] };
+    const newUser = { ...userInfo.user, addresses: [...userInfo.user.addresses] };
     newUser.addresses.splice(index, 1);
     dispatch(updateUserAsync(newUser));
   };
 
   const handelEditForm = (index) => {
     setSelectedEditIndex(index);
-    const address = userInfo.addresses[index];
+    const address = userInfo.user.addresses[index];
     setValue("firstName", address.firstName);
     setValue("lastName", address.lastName);
     setValue("email", address.email);
@@ -44,7 +44,7 @@ const UserProfile = () => {
   };
 
   const handelAdd = (address) => {
-    const newUser = { ...userInfo, addresses: [...userInfo.addresses, address] };
+    const newUser = { ...userInfo.user, addresses: [...userInfo.user.addresses, address] };
     dispatch(updateUserAsync(newUser));
     setShowAddressForm(false);
   };
@@ -335,7 +335,7 @@ const UserProfile = () => {
               </form>
             ) : null}
             <div role="list" className="divide-y divide-gray-100 my-5">
-              {userInfo.addresses.map((address, index) => (
+              {userInfo.user?.addresses?.map((address, index) => (
                 <div key={index}>
                   {/* form */}
                   <div className="lg:col-span-3 bg-white p-5">

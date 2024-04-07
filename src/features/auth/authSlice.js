@@ -5,6 +5,7 @@ const initialState = {
   loggedInUser: null,
   status: "idle",
   userChecked: false,
+  isLoading: false,
   error: null,
 };
 
@@ -38,9 +39,11 @@ export const authSlice = createSlice({
     builder
       .addCase(createUserAsync.pending, (state) => {
         state.status = "loading";
+        state.isLoading = true;
       })
       .addCase(createUserAsync.fulfilled, (state, action) => {
         state.status = "idle";
+        state.isLoading = false;
         if (action.payload.status) {
           state.error = null;
           state.loggedInUser = action.payload;
@@ -51,9 +54,11 @@ export const authSlice = createSlice({
       })
       .addCase(checkUserAsync.pending, (state) => {
         state.status = "loading";
+        state.isLoading = true;
       })
       .addCase(checkUserAsync.fulfilled, (state, action) => {
         state.status = "idle";
+        state.isLoading = false;
         // console.log(action)
         if (action.payload.status) {
           state.error = null;
@@ -65,13 +70,16 @@ export const authSlice = createSlice({
       })
       .addCase(checkUserAsync.rejected, (state, action) => {
         state.status = "idle";
+        state.isLoading = false;
         state.error = action.payload.error;
       })
       .addCase(signOutAsync.pending, (state) => {
         state.status = "loading";
+        state.isLoading = true;
       })
       .addCase(signOutAsync.fulfilled, (state) => {
         state.status = "idle";
+        state.isLoading = false;
         state.loggedInUser = null;
       });
   },

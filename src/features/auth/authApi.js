@@ -2,16 +2,13 @@
 /* eslint-disable no-undef */
 export const createUser = async (userData) => {
   try {
-    const response = await fetch(
-      "https://react-ecommerce-server.onrender.com/auth/signup",
-      {
-        method: "POST",
-        body: JSON.stringify(userData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch("http://localhost:8080/auth/signup", {
+      method: "POST",
+      body: JSON.stringify(userData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -27,16 +24,13 @@ export const createUser = async (userData) => {
 
 export const checkUser = async (loginInfo) => {
   try {
-    const response = await fetch(
-      "https://react-ecommerce-server.onrender.com/auth/login",
-      {
-        method: "POST",
-        body: JSON.stringify(loginInfo),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch("http://localhost:8080/auth/login", {
+      method: "POST",
+      body: JSON.stringify(loginInfo),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (!response.ok) {
       const errorData = await response.json();
